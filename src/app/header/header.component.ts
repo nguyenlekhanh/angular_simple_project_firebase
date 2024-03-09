@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-header',
   standalone: true,
   imports: [],
-  template: `<h3>Header</h3>`
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent {
   
