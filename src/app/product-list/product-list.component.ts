@@ -3,12 +3,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 
+import { ProductComponent } from './product/product.component';
+
 @Component({
   selector: 'product-list',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ProductComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'

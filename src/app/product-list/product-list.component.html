@@ -1,22 +1,3 @@
 <div class="angular--products--container">
-    <div class="angular--product--item" *ngFor="let prod of products; let i=index">
-        <div class="angular-wishlist-sale-container">
-            <div class="angular--add--to--wishlist">
-            <i class="fa fa-heart-o" aria-hidden="true"></i>
-            </div>
-            <div class="angular-on-sale-tag" *ngIf="prod.discountPrice">{{ prod.discountPrice ? (100 - (prod.discountPrice! / prod.price * 100)).toFixed(0) : "" }}% OFF</div>
-        </div>
-        <div class="angular--product--image">
-            <img [src]="prod.imageURL" class="angular--product--image">
-        </div>
-        <div class="angular--add--to--price">
-            {{ '$' + prod.price }}
-        </div>
-        <div class="angular--product--name">{{ prod.name }}</div>
-        <div class="angular--product--category">{{ prod.gender }} . {{ prod.category }} . {{ prod.brand }}</div>
-        <div class="angular--product--available-colors">{{ prod.color.length }}</div>
-        <div class="angular--product--in-stock" [ngStyle]="{fontWeight: 'bold', color: prod.is_in_inventory ? 'Green' : 'Red'}">
-            {{ prod.is_in_inventory ? 'Available in Stock' : 'Not available in stock'}}
-        </div>
-    </div>
+    <app-product *ngFor="let prod of products; let i=index" [product]="prod"></app-product>
 </div>
