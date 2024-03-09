@@ -3,12 +3,15 @@
 >
 </app-filter>
 <div class="angular--products--container">
-    <div *ngFor="let prod of products; let i=index"
-        (click)="selectedProduct = prod"
-    >
+    <!-- not create another div when using ng-container
+        ng-container that is not being render in the dom
+    -->
+    <ng-container *ngFor="let prod of products; let i=index">
         <app-product 
             [product]="prod" 
-            *ngIf="selectedFilterRadioButton === 'all' || prod.is_in_inventory.toString() === selectedFilterRadioButton">
+            *ngIf="selectedFilterRadioButton === 'all' || prod.is_in_inventory.toString() === selectedFilterRadioButton"
+            (click)="selectedProduct = prod"
+        >
         </app-product>
-    </div>
+    </ng-container>
 </div>
