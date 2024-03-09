@@ -1,0 +1,20 @@
+.angular--product--container{
+    margin: 20px auto;
+    padding: 0px 20vh;
+}
+
+.angular-featured-products{ 
+    background-color: #282828;
+    padding: 20px 10px; display: flex;
+}
+.angular-featured-product-heading{
+    width: 320px;
+    margin: 10px 10px; padding: 20px 30px; color: #fff;
+}
+
+.call-to-action {
+    background-color: #28282B;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0px;
+}
