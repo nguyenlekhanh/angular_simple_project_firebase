@@ -3,7 +3,9 @@
 >
 </app-filter>
 <div class="angular--products--container">
-    <div *ngFor="let prod of products; let i=index">
+    <div *ngFor="let prod of products; let i=index"
+        (click)="selectedProduct = prod"
+    >
         <app-product 
             [product]="prod" 
             *ngIf="selectedFilterRadioButton === 'all' || prod.is_in_inventory.toString() === selectedFilterRadioButton">

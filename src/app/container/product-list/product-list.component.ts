@@ -3,8 +3,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 
+import { Product } from '../../Models/Product';
+
 import { ProductComponent } from './product/product.component';
 import { FilterComponent } from './filter/filter.component';
+
 
 @Component({
   selector: 'product-list',
@@ -20,6 +23,7 @@ import { FilterComponent } from './filter/filter.component';
 })
 export class ProductListComponent {
   //name="John Smith";
+  selectedProduct: Product;
   addToCart:number = 0;
   products = [
     {

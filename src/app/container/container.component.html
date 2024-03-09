@@ -1,0 +1,5 @@
+<div class="angular--products--container">
+    <product-list #productListComponent></product-list>
+
+    <product-detail [product]="productListComponent.selectedProduct" *ngIf="productListComponent.selectedProduct"></product-detail>
+</div>
