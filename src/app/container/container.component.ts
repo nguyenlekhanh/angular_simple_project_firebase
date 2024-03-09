@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+
+import { SearchComponent } from './search/search.component';
 
 import { ProductListComponent } from './product-list/product-list.component';
 
@@ -14,11 +16,13 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     CommonModule,
     FormsModule,
     ProductListComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    SearchComponent
   ],
   templateUrl: './container.component.html',
   styleUrl: './container.component.css'
 })
 export class ContainerComponent {
 
+  @ViewChild(ProductListComponent) productListComponent: ProductListComponent
 }

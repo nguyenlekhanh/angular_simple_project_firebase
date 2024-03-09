@@ -1,5 +1,7 @@
 <div class="angular--products--container">
+    <app-search></app-search>
+
     <product-list #productListComponent></product-list>
 
-    <product-detail [product]="productListComponent.selectedProduct" *ngIf="productListComponent.selectedProduct"></product-detail>
+    <product-detail [productListComp]="productListComponent" *ngIf="productListComponent.selectedProduct"></product-detail>
 </div>
