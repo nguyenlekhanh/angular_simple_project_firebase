@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 import { ProductComponent } from './product/product.component';
+import { FilterComponent } from './filter/filter.component';
 
 @Component({
   selector: 'product-list',
@@ -11,7 +12,8 @@ import { ProductComponent } from './product/product.component';
   imports: [
     CommonModule,
     FormsModule,
-    ProductComponent
+    ProductComponent,
+    FilterComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
@@ -545,6 +547,10 @@ export class ProductListComponent {
       slug: "michael-feburary-sk8-hi"
     }
   ];
+
+  totalProductCount = this.products.length;
+  totalProductInStock = this.products.filter(p=>p.is_in_inventory === true).length;
+  totalProductOutOfStock = this.products.filter(p=>p.is_in_inventory === false).length;
 
   getDiscountedPrice() {
     // return this.product.price - (this.product.price * this.product.discount / 100)

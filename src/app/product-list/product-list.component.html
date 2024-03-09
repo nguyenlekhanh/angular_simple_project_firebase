@@ -1,3 +1,4 @@
+<app-filter [all]="totalProductCount" [inStock]="totalProductInStock" [outOfStock]="totalProductOutOfStock"></app-filter>
 <div class="angular--products--container">
     <app-product *ngFor="let prod of products; let i=index" [product]="prod"></app-product>
 </div>
