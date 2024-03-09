@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'top-menu',
+  selector: 'top-menu', //[top-menu]  or .top-menu
   standalone: true,
   imports: [],
   templateUrl: './top-menu.component.html',
