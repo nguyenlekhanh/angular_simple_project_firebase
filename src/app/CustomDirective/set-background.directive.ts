@@ -5,10 +5,10 @@ import { Directive, ElementRef } from '@angular/core';
   standalone: true
 })
 export class SetBackgroundDirective {
-  private element: ElementRef
+  //private element: ElementRef
   
-  constructor(private el: ElementRef) { 
-    this.element = el;
+  constructor(private element: ElementRef) { 
+    //this.element = el;
   }
 
   ngOnInit() {
