@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appSetBackground]',
@@ -11,14 +11,17 @@ export class SetBackgroundDirective {
     //this.element = el;
   }
 
+  @Input() textColor: string = '#36454F';
+  @Input() backgroundColor: string = 'white';
+
   ngOnInit() {
     //access directly DOM
     //this.element.nativeElement.style.backgroundColor = '#36454F';
     //this.element.nativeElement.style.color = 'white';
 
     //not directly access the DOM
-    this.renderer.setStyle(this.element.nativeElement, 'backgroundColor', '#36454F');
-    this.renderer.setStyle(this.element.nativeElement, 'color', 'white');
+    this.renderer.setStyle(this.element.nativeElement, 'backgroundColor', this.backgroundColor);
+    this.renderer.setStyle(this.element.nativeElement, 'color', this.textColor);
     // this.renderer.setAttribute(this.element.nativeElement, 'title', 'This is example title');
   }
 
