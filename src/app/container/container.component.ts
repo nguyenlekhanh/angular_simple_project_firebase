@@ -28,4 +28,5 @@ import { FeaturedBrandsComponent } from './featured-brands/featured-brands.compo
 export class ContainerComponent {
 
   @ViewChild(ProductListComponent) productListComponent: ProductListComponent
+  featureDisplay: boolean = false;
 }
