@@ -11,9 +11,9 @@
             <h2>{{ product.name }}</h2>
         </div>
         <div class="angular-product-detail-gbc">
-            <span>MEN</span>
-            <span>NIKE</span>
-            <span>SPORTS</span>
+            <span appSetBackground>{{ product.gender }}</span>
+            <span appSetBackground>{{ product.brand }}</span>
+            <span appSetBackground>{{ product.category }}</span>
         </div>
         <div class="angular-product-detail-price">
             <p>

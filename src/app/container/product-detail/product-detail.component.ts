@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { Product } from '../../Models/Product';
 import { ProductListComponent } from '../product-list/product-list.component';
 
+import { SetBackgroundDirective } from '../../CustomDirective/set-background.directive';
 
 @Component({
   selector: 'product-detail',
@@ -13,6 +14,7 @@ import { ProductListComponent } from '../product-list/product-list.component';
   imports: [
     CommonModule,
     FormsModule,
+    SetBackgroundDirective
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'

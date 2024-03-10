@@ -41,11 +41,11 @@
 }
 
 .angular-product-detail-gbc > span{
-    background-color: #36454F;
+    /*background-color: #36454F;*/
     margin-left: 0px;
     padding: 5px 20px;
     font-size: 14px;
-    color: white;
+    /*color: white;*/
 }
 
 .angular-product-detail-name{
