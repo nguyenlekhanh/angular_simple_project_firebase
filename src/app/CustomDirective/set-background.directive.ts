@@ -12,7 +12,7 @@ export class SetBackgroundDirective {
   }
 
   ngOnInit() {
-    this.el.nativeElement.style.backgroundColor = '#36454F';
-    this.el.nativeElement.style.color = 'white';
+    this.element.nativeElement.style.backgroundColor = '#36454F';
+    this.element.nativeElement.style.color = 'white';
   }
 }
