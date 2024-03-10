@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { NewTaskComponent } from './new-task/new-task.component';
 import { ShowTaskComponent } from './show-task/show-task.component';
+import { SubjectComponent } from './subject/subject.component';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ import { ShowTaskComponent } from './show-task/show-task.component';
     TopHeaderComponent,
     ContainerComponent,
     NewTaskComponent,
-    ShowTaskComponent
+    ShowTaskComponent,
+    SubjectComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
