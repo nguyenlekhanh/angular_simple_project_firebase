@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ContainerComponent } from './container/container.component';
 import { Observable, from, fromEvent, of } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -80,7 +81,23 @@ export class AppComponent {
     resolve([10,20,30,40,50]);
   });
 
-  myObserable = from(this.promiseData); //return array
+  // myObserable = from(this.promiseData); //return array
+  myObserable = from([2,4,6,8,10, 12]).pipe(map((val) => {
+    return val*10;
+  }), filter((val, i) => {
+    return val % 4 === 0;
+  }));;
+
+  // transformedObs = this.myObserable.pipe(map((val) => {
+  //   return val*10;
+  // }), filter((val, i) => {
+  //   return val % 4 === 0;
+  // }));
+
+  // filteredObs = this.transformedObs.pipe(filter((val, i) => {
+  //   return val % 4 === 0;
+  // }));
+
 
   GetAsyncData() {
     //Observer
