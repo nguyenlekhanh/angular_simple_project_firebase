@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { CommonModule } from '@angular/common'; //ngFor
@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { HeaderComponent } from './header/header.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ContainerComponent } from './container/container.component';
-import { Observable, from, of } from 'rxjs';
+import { Observable, from, fromEvent, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -107,5 +107,28 @@ export class AppComponent {
         alert("All data is streamed");
       }
     })
+  }
+
+  @ViewChild('createbtn')
+  createBtn: ElementRef
+
+  createBtnObs;
+
+  buttonClicked() {
+    let count = 0;
+    this.createBtnObs = fromEvent(this.createBtn.nativeElement, 'click').subscribe((data) => {
+      console.log(data);
+      this.showItem(count++);
+    });
+  }
+
+  ngAfterViewInit() {
+    this.buttonClicked();
+  }
+
+  showItem(val) {
+    let div = document.createElement('div');
+    div.innerText = 'Item' + val;
+    document.getElementById('container').appendChild(div);
   }
 }
