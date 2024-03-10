@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { HeaderComponent } from './header/header.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ContainerComponent } from './container/container.component';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -58,15 +58,21 @@ export class AppComponent {
   // }
   //---------------------------
 
-  myObserable = new Observable(observer => {
-    setTimeout(() => {observer.next(1)}, 1000);
-    setTimeout(() => {observer.next(2)}, 2000);
-    setTimeout(() => {observer.next(3)}, 3000);
-    //setTimeout(() => {observer.error(new Error("Something went wrong"))}, 4000);
-    setTimeout(() => {observer.next(4)}, 4000);
-    setTimeout(() => {observer.next(5)}, 5000);
-    setTimeout(() => {observer.complete()}, 6000);
-  });
+  // myObserable = new Observable(observer => {
+  //   setTimeout(() => {observer.next(1)}, 1000);
+  //   setTimeout(() => {observer.next(2)}, 2000);
+  //   setTimeout(() => {observer.next(3)}, 3000);
+  //   //setTimeout(() => {observer.error(new Error("Something went wrong"))}, 4000);
+  //   setTimeout(() => {observer.next(4)}, 4000);
+  //   setTimeout(() => {observer.next(5)}, 5000);
+  //   setTimeout(() => {observer.complete()}, 6000);
+  // });
+
+  //------------------------
+  array1 = [1,3,5,7,9];
+  array2 = ['A', 'B', 'C', 'D'];
+
+  myObserable = of(this.array1, this.array2, 20, 30, 'Hello');
 
   GetAsyncData() {
     //Observer
@@ -84,6 +90,7 @@ export class AppComponent {
     this.myObserable.subscribe({
       next: (val: any) => {
         this.data.push(val);
+        console.log(val);
       },
       error(err) {
         alert(err.message);
