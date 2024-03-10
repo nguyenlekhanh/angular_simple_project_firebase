@@ -5,12 +5,15 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 
 import { Product } from '../../../Models/Product';
 
+import { HighlightDirective } from '../../../CustomDirective/highlight.directive';
+
 @Component({
   selector: 'app-product',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+    HighlightDirective
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
