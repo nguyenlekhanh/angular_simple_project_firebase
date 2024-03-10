@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { Product } from '../../../Models/Product';
 
 import { HighlightDirective } from '../../../CustomDirective/highlight.directive';
+import { DisableProductDirective } from '../../../CustomDirective/disable-product.directive';
 
 @Component({
   selector: 'app-product',
@@ -13,7 +14,8 @@ import { HighlightDirective } from '../../../CustomDirective/highlight.directive
   imports: [
     CommonModule,
     FormsModule,
-    HighlightDirective
+    HighlightDirective,
+    DisableProductDirective
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
