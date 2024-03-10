@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
@@ -23,7 +23,8 @@ import { FeaturedBrandsComponent } from './featured-brands/featured-brands.compo
     FeaturedBrandsComponent
   ],
   templateUrl: './container.component.html',
-  styleUrl: './container.component.css'
+  styleUrl: './container.component.css',
+  // encapsulation: ViewEncapsulation.None - not encapsulate //default is Encapsulation //ViewEncapsulation.ShadowDom - seperate with main DOM
 })
 export class ContainerComponent {
 
