@@ -10,6 +10,9 @@ import { ContainerComponent } from './container/container.component';
 import { Observable, from, fromEvent, of } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { NewTaskComponent } from './new-task/new-task.component';
+import { ShowTaskComponent } from './show-task/show-task.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +22,9 @@ import { map, filter } from 'rxjs/operators';
     FormsModule,
     HeaderComponent,
     TopHeaderComponent,
-    ContainerComponent
+    ContainerComponent,
+    NewTaskComponent,
+    ShowTaskComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -133,10 +138,10 @@ export class AppComponent {
 
   buttonClicked() {
     let count = 0;
-    this.createBtnObs = fromEvent(this.createBtn.nativeElement, 'click').subscribe((data) => {
-      console.log(data);
-      this.showItem(count++);
-    });
+    // this.createBtnObs = fromEvent(this.createBtn.nativeElement, 'click').subscribe((data) => {
+    //   console.log(data);
+    //   this.showItem(count++);
+    // });
   }
 
   ngAfterViewInit() {
