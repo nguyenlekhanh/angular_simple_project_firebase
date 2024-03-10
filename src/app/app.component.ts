@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { HeaderComponent } from './header/header.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ContainerComponent } from './container/container.component';
-import { Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -72,7 +72,15 @@ export class AppComponent {
   array1 = [1,3,5,7,9];
   array2 = ['A', 'B', 'C', 'D'];
 
-  myObserable = of(this.array1, this.array2, 20, 30, 'Hello');
+  // myObserable = of(this.array1, this.array2, 20, 30, 'Hello');
+  //myObserable = from(this.array1);  //return each item
+  //myObserable = from('23456'); //return each number
+
+  promiseData = new Promise((resolve, reject) => {
+    resolve([10,20,30,40,50]);
+  });
+
+  myObserable = from(this.promiseData); //return array
 
   GetAsyncData() {
     //Observer
