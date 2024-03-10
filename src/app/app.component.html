@@ -1,3 +1,12 @@
-<top-header></top-header>
+<!-- <top-header></top-header>
 <app-header></app-header>
-<app-container></app-container>
+<app-container></app-container> -->
+
+<div class="container">
+    <h2>Observables in Angular</h2>
+    <div class="data-list" *ngFor="let x of data">
+        {{ x }}
+    </div>
+
+    <button (click)="GetAsyncData()">Get Data</button>
+</div>
