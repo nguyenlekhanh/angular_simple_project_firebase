@@ -7,6 +7,7 @@ import { Product } from '../../../Models/Product';
 
 import { HighlightDirective } from '../../../CustomDirective/highlight.directive';
 import { DisableProductDirective } from '../../../CustomDirective/disable-product.directive';
+import { AppClassDirective } from '../../../CustomDirective/app-class.directive';
 
 @Component({
   selector: 'app-product',
@@ -15,7 +16,8 @@ import { DisableProductDirective } from '../../../CustomDirective/disable-produc
     CommonModule,
     FormsModule,
     HighlightDirective,
-    DisableProductDirective
+    DisableProductDirective,
+    AppClassDirective
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
