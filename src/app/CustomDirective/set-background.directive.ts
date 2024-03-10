@@ -14,6 +14,8 @@ export class SetBackgroundDirective {
   @Input() textColor: string = '#36454F';
   @Input() backgroundColor: string = 'white';
 
+  // @Input('appSetBackground') changeTextAndBackColor: {backColor: string, textColor: string};
+
   ngOnInit() {
     //access directly DOM
     //this.element.nativeElement.style.backgroundColor = '#36454F';
