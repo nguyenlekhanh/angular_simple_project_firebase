@@ -1,0 +1,11 @@
+<div class="div-container">
+    <div class="sub-container">
+        <h2>Subscriber 1</h2>
+        <hr />
+        <div class="data-list" *ngFor="let x of data">
+            {{ x }}
+        </div>
+        <button (click)="OnSubscribe()">Subscribe</button>
+        <button (click)="OnUnSubscribe()">UnSubscribe</button>
+    </div>
+</div>
