@@ -16,6 +16,8 @@ import { SubjectComponent } from './subject/subject.component';
 
 import { UbsubscribeComponent } from './ubsubscribe/ubsubscribe.component';
 
+import { UsersComponent } from './users/users.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -29,7 +31,8 @@ import { UbsubscribeComponent } from './ubsubscribe/ubsubscribe.component';
     NewTaskComponent,
     ShowTaskComponent,
     SubjectComponent,
-    UbsubscribeComponent
+    UbsubscribeComponent,
+    UsersComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
