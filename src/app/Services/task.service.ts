@@ -96,7 +96,13 @@ export class TaskService {
     }
 
     GetAllTask() {
-        return this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json")
+        let headers = new HttpHeaders();
+        //headers = headers.set('content-type', 'application/json');
+        //headers = headers.set('Access-Control-Allow-Origin', '*');
+        headers = headers.append('content-type', 'application/json');
+        headers = headers.append('Access-Control-Allow-Origin', '*');
+
+        return this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json", {headers: headers})
             .pipe(
                 map((response) => {
                     //TRANSFORM DATA
