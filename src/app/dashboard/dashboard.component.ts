@@ -55,7 +55,7 @@ export class DashboardComponent {
   FetchAllTaskCLicked() {
     this.fetchAllTasks();
   }
-  
+
   private fetchAllTasks() {
     this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json")
       .pipe(
@@ -75,6 +75,20 @@ export class DashboardComponent {
       .subscribe((tasks) => {
         this.allTasks = tasks;
       })
+  }
+
+  DeleteTask(id: string | undefined) {
+    this.http.delete("https://thematic-garage-625.firebaseio.com/tasks/" + id + ".json")
+    .subscribe(() => {
+      this.fetchAllTasks();
+    });
+  }
+
+  DeleteAllTask() {
+    this.http.delete("https://thematic-garage-625.firebaseio.com/tasks.json")
+    .subscribe(() => {
+      this.fetchAllTasks();
+    });
   }
 
 
