@@ -32,8 +32,9 @@ export class UsersComponent {
   }
 
   OnDeleteClicked(user: User) {
-    this.showConfirmDeleteComponent = true;
-    this.userToDelete = user;
+    // this.showConfirmDeleteComponent = true;
+    // this.userToDelete = user;
+    this.showConfirmDelete(user);
   }
 
   OnUserDeleteConfirmed(value: boolean) {
@@ -45,5 +46,9 @@ export class UsersComponent {
 
       this.userService.users.splice(indexUserdelete, 1);
     }
+  }
+
+  showConfirmDelete(user: User) {
+
   }
 }

@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 
-import { HeaderComponent } from './header/header.component';
+// import { HeaderComponent } from './header/header.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
 import { ContainerComponent } from './container/container.component';
 import { Observable, from, fromEvent, of } from 'rxjs';
@@ -17,6 +17,10 @@ import { SubjectComponent } from './subject/subject.component';
 import { UbsubscribeComponent } from './ubsubscribe/ubsubscribe.component';
 
 import { UsersComponent } from './users/users.component';
+
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +36,9 @@ import { UsersComponent } from './users/users.component';
     ShowTaskComponent,
     SubjectComponent,
     UbsubscribeComponent,
-    UsersComponent
+    UsersComponent,
+    FooterComponent,
+    DashboardComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
