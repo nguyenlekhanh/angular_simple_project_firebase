@@ -99,7 +99,7 @@ export class TaskService {
         return this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json")
             .pipe(
                 map((response) => {
-                //TRANSFORM DATA
+                    //TRANSFORM DATA
                     let tasks = [];
 
                     for(let key in response) {
@@ -129,5 +129,15 @@ export class TaskService {
                 this.errorSubject.next(err);
             }
           });
+    }
+
+    getTaskDetail(id: string | undefined) {
+        return this.http.get("https://thematic-garage-625.firebaseio.com/tasks/" + id + ".json")
+        .pipe(map((response) => {
+            //TRANSFORM DATA
+            let task = {};
+            task = {...response, id: id};
+            return task;
+        }));
     }
 }

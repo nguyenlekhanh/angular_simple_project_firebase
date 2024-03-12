@@ -7,18 +7,22 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Subscription, map } from 'rxjs';
 import { TaskService } from '../Services/task.service';
 
+import { TaskDetailsComponent } from './task-details/task-details.component';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    CreateTaskComponent
+    CreateTaskComponent,
+    TaskDetailsComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  showTaskDetails: boolean = false;
   showCreateTaskForm: boolean = false;
   http: HttpClient = inject(HttpClient);
   allTasks: Task[] = [];
@@ -30,6 +34,8 @@ export class DashboardComponent {
 
   errorMessage: string |  null = null;
   errorSub: Subscription;
+
+  currentTask: Task | null = null;
 
   ngOnInit() {
     this.fetchAllTasks();
@@ -48,6 +54,20 @@ export class DashboardComponent {
     
     this.selectedTask = {title: '', desc: '', assignedTo: '', createdAt: '', priority: '', status: ''};
     this.showCreateTaskForm = true;
+  }
+
+  showCurrentTaskDetail(id: string | undefined) {
+    this.showTaskDetails = true;
+    this.taskService.getTaskDetail(id)
+      .subscribe({
+        next: (data: Task) => {
+          this.currentTask = data;
+        }
+      });
+  }
+
+  CloseTaskDetail() {
+    this.showTaskDetails = false;
   }
 
   CloseCreateTaskForm(){
