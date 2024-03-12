@@ -25,6 +25,7 @@ export class DashboardComponent {
   taskService: TaskService = inject(TaskService);
   selectedTask: Task;
   isEditMode: boolean = false;
+  currentTaskId: string;
 
   ngOnInit() {
     this.fetchAllTasks();
@@ -40,9 +41,12 @@ export class DashboardComponent {
     this.showCreateTaskForm = false;
   }
 
-  CreateTask(data: Task) {
-    this.isEditMode = false;
-    this.taskService.CreateTask(data);
+  CreateOrUpdateTask(data: Task) {
+    if(this.isEditMode) {
+      this.taskService.UpdateTaskById(this.currentTaskId, data);
+    } else {
+      this.taskService.CreateTask(data);
+    }
   }
 
   FetchAllTaskCLicked() {
@@ -66,6 +70,7 @@ export class DashboardComponent {
 
   UpdateTaskById(id: string | undefined) {
     this.selectedTask = this.allTasks.find((task) => task.id === id);
+    this.currentTaskId = id;
     this.showCreateTaskForm = true;
     this.isEditMode = true;
     

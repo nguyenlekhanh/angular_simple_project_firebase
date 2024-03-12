@@ -90,7 +90,10 @@ export class TaskService {
         );
     }
 
-    UpdateTaskById(id: string | undefined) {
-        
+    UpdateTaskById(id: string | undefined, data: Task) {
+        this.http.put("https://thematic-garage-625.firebaseio.com/tasks/" + id + ".json", data)
+        .subscribe(() => {
+            this.fetchAllTasks();
+        });
     }
 }
