@@ -26,6 +26,7 @@ export class DashboardComponent {
   selectedTask: Task;
   isEditMode: boolean = false;
   currentTaskId: string;
+  isLoading: boolean = false;
 
   ngOnInit() {
     this.fetchAllTasks();
@@ -54,9 +55,10 @@ export class DashboardComponent {
   }
 
   private fetchAllTasks() {
+    this.isLoading = true;
     this.taskService.GetAllTask().subscribe((tasks) => {
-      console.log(tasks);
       this.allTasks = tasks;
+      this.isLoading = false;
     });
   }
 
