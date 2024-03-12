@@ -20,6 +20,7 @@ import { map } from 'rxjs';
 export class DashboardComponent {
   showCreateTaskForm: boolean = false;
   http: HttpClient = inject(HttpClient);
+  allTasks: Task[] = [];
 
   ngOnInit() {
     this.fetchAllTasks();
@@ -47,9 +48,14 @@ export class DashboardComponent {
         data, {headers: headers})
       .subscribe((response) => {
           console.log(response);
+          this.fetchAllTasks();
       });
   }
 
+  FetchAllTaskCLicked() {
+    this.fetchAllTasks();
+  }
+  
   private fetchAllTasks() {
     this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json")
       .pipe(
@@ -62,12 +68,12 @@ export class DashboardComponent {
               tasks.push({...response[key], id: key});
             }
           }
-          
+
           return tasks;
         })
       )
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe((tasks) => {
+        this.allTasks = tasks;
       })
   }
 
