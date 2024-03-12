@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CreateTaskComponent } from './create-task/create-task.component';
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { Task } from '../Models/Task';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,5 +24,9 @@ export class DashboardComponent {
 
   CloseCreateTaskForm(){
     this.showCreateTaskForm = false;
+  }
+
+  CreateTask(data: Task) {
+    console.log(data);
   }
 }
