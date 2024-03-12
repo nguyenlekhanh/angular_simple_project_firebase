@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { Task } from '../Models/Task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +20,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class DashboardComponent {
   showCreateTaskForm: boolean = false;
   http: HttpClient = inject(HttpClient);
+
+  ngOnInit() {
+    this.fetchAllTasks();
+  }
 
   OpenCreateTaskForm(){
     this.showCreateTaskForm = true;
@@ -44,4 +49,28 @@ export class DashboardComponent {
           console.log(response);
       });
   }
+
+  private fetchAllTasks() {
+    this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json")
+      .pipe(
+        map((response) => {
+          //TRANSFORM DATA
+          let tasks = [];
+
+          for(let key in response) {
+            if(response.hasOwnProperty(key)) {
+              tasks.push({...response[key], id: key});
+            }
+          }
+          
+          return tasks;
+        })
+      )
+      .subscribe((response) => {
+        console.log(response);
+      })
+  }
+
+
+
 }
