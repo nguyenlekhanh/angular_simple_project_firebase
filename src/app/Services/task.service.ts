@@ -1,9 +1,9 @@
 
 
 import { Injectable, inject } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { map } from "rxjs";
+import { Subject, map } from "rxjs";
 
 @Injectable({
     providedIn: 'root',
@@ -11,6 +11,7 @@ import { map } from "rxjs";
 export class TaskService {
     //http: HttpClient = inject(HttpClient);
     allTasks: Task[] = [];
+    errorSubject = new Subject<HttpErrorResponse>;
 
     constructor(private http: HttpClient) {
 
@@ -27,9 +28,10 @@ export class TaskService {
         this.http.post<{name: string}>(
             "https://thematic-garage-625.firebaseio.com/tasks.json", 
             data, {headers: headers})
-          .subscribe((response) => {
-              //console.log(response);
-              this.fetchAllTasks();
+          .subscribe({
+            error: (err) => {
+                this.errorSubject.next(err);
+            }
           });
     }
 
@@ -60,16 +62,20 @@ export class TaskService {
 
     DeleteTask(id: string | undefined) {
         this.http.delete("https://thematic-garage-625.firebaseio.com/tasks/" + id + ".json")
-        .subscribe(() => {
-            this.fetchAllTasks();
-        });
+        .subscribe({
+            error: (err) => {
+                this.errorSubject.next(err);
+            }
+          });
     }
 
     DeleteAllTask() {
         this.http.delete("https://thematic-garage-625.firebaseio.com/tasks.json")
-        .subscribe(() => {
-            this.fetchAllTasks();
-        });
+        .subscribe({
+            error: (err) => {
+                this.errorSubject.next(err);
+            }
+          });
     }
 
     GetAllTask() {

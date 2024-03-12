@@ -32,6 +32,11 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.fetchAllTasks();
+    this.taskService.errorSubject.subscribe({
+      next: (httpError) => {
+        this.setErrorMessage(httpError);
+      }
+    });
   }
 
   OpenCreateTaskForm(){
@@ -66,19 +71,19 @@ export class DashboardComponent {
         //this.errorMessage = error.message;
         this.setErrorMessage(error);
         this.isLoading = false;
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 3000);
       }
     });
   }
 
   private setErrorMessage(err: HttpErrorResponse) {
-    console.log(err);
+    //console.log(err);
     if(err.error.err === 'Permission denied') {
       this.errorMessage = 'You do not have permission to perform this action'
+    } else {
+      this.errorMessage = err.message;
     }
   }
+
 
   DeleteTask(id: string | undefined) {
     this.taskService.DeleteTask(id);
