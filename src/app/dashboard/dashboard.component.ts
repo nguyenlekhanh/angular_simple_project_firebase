@@ -3,7 +3,7 @@ import { CreateTaskComponent } from './create-task/create-task.component';
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { Task } from '../Models/Task';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs';
 import { TaskService } from '../Services/task.service';
 
@@ -27,6 +27,8 @@ export class DashboardComponent {
   isEditMode: boolean = false;
   currentTaskId: string;
   isLoading: boolean = false;
+
+  errorMessage: string |  null = null;
 
   ngOnInit() {
     this.fetchAllTasks();
@@ -56,10 +58,26 @@ export class DashboardComponent {
 
   private fetchAllTasks() {
     this.isLoading = true;
-    this.taskService.GetAllTask().subscribe((tasks) => {
-      this.allTasks = tasks;
-      this.isLoading = false;
+    this.taskService.GetAllTask().subscribe({
+      next: (tasks) => {
+        this.allTasks = tasks;
+        this.isLoading = false;
+      }, error: (error) => {
+        //this.errorMessage = error.message;
+        this.setErrorMessage(error);
+        this.isLoading = false;
+        setTimeout(() => {
+          this.errorMessage = null;
+        }, 3000);
+      }
     });
+  }
+
+  private setErrorMessage(err: HttpErrorResponse) {
+    console.log(err);
+    if(err.error.err === 'Permission denied') {
+      this.errorMessage = 'You do not have permission to perform this action'
+    }
   }
 
   DeleteTask(id: string | undefined) {
