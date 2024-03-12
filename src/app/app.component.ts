@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { HttpClientModule } from '@angular/common/http';
 
 // import { HeaderComponent } from './header/header.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
@@ -38,7 +39,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     UbsubscribeComponent,
     UsersComponent,
     FooterComponent,
-    DashboardComponent
+    DashboardComponent,
+    HttpClientModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
