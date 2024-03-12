@@ -23,12 +23,16 @@ export class DashboardComponent {
   http: HttpClient = inject(HttpClient);
   allTasks: Task[] = [];
   taskService: TaskService = inject(TaskService);
+  selectedTask: Task;
+  isEditMode: boolean = false;
 
   ngOnInit() {
     this.fetchAllTasks();
   }
 
   OpenCreateTaskForm(){
+    
+    this.selectedTask = {title: '', desc: '', assignedTo: '', createdAt: '', priority: '', status: ''};
     this.showCreateTaskForm = true;
   }
 
@@ -37,6 +41,7 @@ export class DashboardComponent {
   }
 
   CreateTask(data: Task) {
+    this.isEditMode = false;
     this.taskService.CreateTask(data);
   }
 
@@ -59,4 +64,12 @@ export class DashboardComponent {
     this.taskService.DeleteAllTask();
   }
 
+  UpdateTaskById(id: string | undefined) {
+    this.selectedTask = this.allTasks.find((task) => task.id === id);
+    this.showCreateTaskForm = true;
+    this.isEditMode = true;
+    
+
+    //this.taskService.UpdateTaskById(id);
+  }
 }
