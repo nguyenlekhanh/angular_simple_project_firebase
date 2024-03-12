@@ -1,7 +1,7 @@
 
 
 import { Injectable, inject } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Task } from "../Models/Task";
 import { Subject, catchError, map, throwError } from "rxjs";
 import { LoggingService } from "./Logging.Service";
@@ -102,7 +102,11 @@ export class TaskService {
         headers = headers.append('content-type', 'application/json');
         headers = headers.append('Access-Control-Allow-Origin', '*');
 
-        return this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json", {headers: headers})
+        let queryParams = new HttpParams();
+        queryParams = queryParams.set('page', 2);
+        queryParams = queryParams.set('item', 10);
+
+        return this.http.get<{[key: string]: Task}>("https://thematic-garage-625.firebaseio.com/tasks.json", {headers: headers, params: queryParams})
             .pipe(
                 map((response) => {
                     //TRANSFORM DATA
