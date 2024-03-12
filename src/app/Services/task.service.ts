@@ -1,9 +1,9 @@
 
 
 import { Injectable, inject } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { Subject, catchError, map, throwError } from "rxjs";
+import { Subject, catchError, map, tap, throwError } from "rxjs";
 import { LoggingService } from "./Logging.Service";
 
 @Injectable({
@@ -82,8 +82,17 @@ export class TaskService {
     }
 
     DeleteAllTask() {
-        this.http.delete("https://thematic-garage-625.firebaseio.com/tasks.json")
-        .pipe(catchError((err) => {
+        this.http.delete("https://thematic-garage-625.firebaseio.com/tasks.json", {"observe": "events"})
+        .pipe(tap((event) => {
+            console.log(event);
+            if(event.type === HttpEventType.Sent) {
+                
+            }
+            if(event.type === HttpEventType.Response) {
+
+            }
+        }),
+        catchError((err) => {
             const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date};
             this.loggingService.logError(errorObj);
             return throwError(() => err)
