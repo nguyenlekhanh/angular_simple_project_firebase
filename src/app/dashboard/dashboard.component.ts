@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'; //ngFor
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { Task } from '../Models/Task';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 import { TaskService } from '../Services/task.service';
 
 @Component({
@@ -29,14 +29,19 @@ export class DashboardComponent {
   isLoading: boolean = false;
 
   errorMessage: string |  null = null;
+  errorSub: Subscription;
 
   ngOnInit() {
     this.fetchAllTasks();
-    this.taskService.errorSubject.subscribe({
+    this.errorSub = this.taskService.errorSubject.subscribe({
       next: (httpError) => {
         this.setErrorMessage(httpError);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.errorSub.unsubscribe();
   }
 
   OpenCreateTaskForm(){
