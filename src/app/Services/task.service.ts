@@ -3,7 +3,8 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { Subject, map } from "rxjs";
+import { Subject, catchError, map, throwError } from "rxjs";
+import { LoggingService } from "./Logging.Service";
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ export class TaskService {
     //http: HttpClient = inject(HttpClient);
     allTasks: Task[] = [];
     errorSubject = new Subject<HttpErrorResponse>;
+    loggingService: LoggingService = inject(LoggingService);
 
     constructor(private http: HttpClient) {
 
@@ -28,6 +30,11 @@ export class TaskService {
         this.http.post<{name: string}>(
             "https://thematic-garage-625.firebaseio.com/tasks.json", 
             data, {headers: headers})
+        .pipe(catchError((err) => {
+                const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date};
+                this.loggingService.logError(errorObj);
+                return throwError(() => err)
+            }))
           .subscribe({
             error: (err) => {
                 this.errorSubject.next(err);
@@ -62,6 +69,11 @@ export class TaskService {
 
     DeleteTask(id: string | undefined) {
         this.http.delete("https://thematic-garage-625.firebaseio.com/tasks/" + id + ".json")
+        .pipe(catchError((err) => {
+            const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date};
+            this.loggingService.logError(errorObj);
+            return throwError(() => err)
+        }))
         .subscribe({
             error: (err) => {
                 this.errorSubject.next(err);
@@ -71,6 +83,11 @@ export class TaskService {
 
     DeleteAllTask() {
         this.http.delete("https://thematic-garage-625.firebaseio.com/tasks.json")
+        .pipe(catchError((err) => {
+            const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date};
+            this.loggingService.logError(errorObj);
+            return throwError(() => err)
+        }))
         .subscribe({
             error: (err) => {
                 this.errorSubject.next(err);
@@ -92,14 +109,25 @@ export class TaskService {
                 }
 
                 return tasks;
+            }), catchError((err) => {
+                const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date};
+                this.loggingService.logError(errorObj);
+                return throwError(() => err)
             })
         );
     }
 
     UpdateTaskById(id: string | undefined, data: Task) {
         this.http.put("https://thematic-garage-625.firebaseio.com/tasks/" + id + ".json", data)
-        .subscribe(() => {
-            this.fetchAllTasks();
-        });
+        .pipe(catchError((err) => {
+            const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date};
+            this.loggingService.logError(errorObj);
+            return throwError(() => err)
+        }))
+        .subscribe({
+            error: (err) => {
+                this.errorSubject.next(err);
+            }
+          });
     }
 }
