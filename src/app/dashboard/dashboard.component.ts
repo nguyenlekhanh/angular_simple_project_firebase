@@ -9,6 +9,9 @@ import { TaskService } from '../Services/task.service';
 
 import { TaskDetailsComponent } from './task-details/task-details.component';
 
+import { LoaderComponent } from '../utility/loader/loader.component';
+import { SnackbarComponent } from '../utility/snackbar/snackbar.component';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -16,7 +19,9 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
     CommonModule,
     FormsModule,
     CreateTaskComponent,
-    TaskDetailsComponent
+    TaskDetailsComponent,
+    LoaderComponent,
+    SnackbarComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

@@ -3,7 +3,7 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { Subject, map } from "rxjs";
+import { Subject, catchError, map, throwError } from "rxjs";
 import { AuthResponse } from "../Models/AuthResponse";
 
 @Injectable({
@@ -11,6 +11,7 @@ import { AuthResponse } from "../Models/AuthResponse";
 })
 export class AuthService {
     http: HttpClient = inject(HttpClient);
+    error: string | null = null;
 
     //firebase.google.com/docs/reference/rest/auth#section-create-email-password
     signup(email, password) {
@@ -18,6 +19,23 @@ export class AuthService {
 
         return this.http.post<AuthResponse>(
                     'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', data
+                ).pipe(
+                    catchError(err => {
+                        let errorMessage = 'An unknown error has occured';
+                        if(!err.error || ! err.error.error) {
+                            return throwError(() => errorMessage);
+                        }
+                        switch(err.error.error.message) {
+                            case 'EMAIL_EXISTS':
+                                errorMessage = "This email already exists.";
+                                break;
+                            case 'OPERATION_NOT_ALLOWED':
+                                errorMessage= "This operation is not allowed."
+                                break;
+                        }
+
+                        return throwError(() => errorMessage);
+                    })
                 );
 
 
