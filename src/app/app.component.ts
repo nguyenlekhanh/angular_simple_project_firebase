@@ -23,10 +23,13 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    RouterModule,
     RouterOutlet,
     CommonModule,
     FormsModule,
