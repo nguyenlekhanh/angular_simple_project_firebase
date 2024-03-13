@@ -4,7 +4,8 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { tap } from "rxjs";
 
 export const authInterceptorServiceInterceptor: HttpInterceptorFn = (req, next) => {
-    const modifiedReq = req.clone({headers: req.headers.append('auth', 'abcccc')});
+    //const modifiedReq = req.clone({headers: req.headers.append('auth', 'abcccc')});
+    const modifiedReq = req.clone();
   console.log("Auth Interceptor called!");
   return next(modifiedReq).pipe(
     tap((event) => {
