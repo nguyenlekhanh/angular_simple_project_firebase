@@ -31,7 +31,7 @@ export class AuthService {
         const data = {email: email, password: password, returnSecureToken: true};
 
         return this.http.post<AuthResponse>(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBjhVbSlKb_mSBT7z24-Bejlqm8x3slrLY', data
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', data
         ).pipe(
             catchError(this.handleError)
         );
