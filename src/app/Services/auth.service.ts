@@ -3,7 +3,7 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { Subject, catchError, map, tap, throwError } from "rxjs";
+import { BehaviorSubject, Subject, catchError, map, tap, throwError } from "rxjs";
 import { AuthResponse } from "../Models/AuthResponse";
 import { FirebaseUser } from "../Models/firebaseUser";
 
@@ -13,7 +13,7 @@ import { FirebaseUser } from "../Models/firebaseUser";
 export class AuthService {
     http: HttpClient = inject(HttpClient);
     error: string | null = null;
-    firebaseUser = new Subject<FirebaseUser>();
+    firebaseUser = new BehaviorSubject<FirebaseUser>(null);
 
     //firebase.google.com/docs/reference/rest/auth#section-create-email-password
     signup(email, password) {

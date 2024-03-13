@@ -3,8 +3,9 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpEventType, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { Subject, catchError, map, tap, throwError } from "rxjs";
+import { Subject, catchError, exhaustMap, map, take, tap, throwError } from "rxjs";
 import { LoggingService } from "./Logging.Service";
+import { AuthService } from "./auth.service";
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,7 @@ export class TaskService {
     http: HttpClient = inject(HttpClient);
     loggingService: LoggingService = inject(LoggingService);
     errorSubject = new Subject<HttpErrorResponse>();
+    authService: AuthService = inject(AuthService);
 
     CreateTask(task: Task){
         const headers = new HttpHeaders({'my-header': 'hello-world'})
@@ -63,33 +65,30 @@ export class TaskService {
     }
 
     GetAlltasks(){
-        let headers = new HttpHeaders();
-        headers = headers.append('content-type', 'application/json');
-        headers = headers.append('content-type', 'text/html')
+        return this.authService.firebaseUser
+            .pipe(take(1), exhaustMap(user => {
+                return this.http.get<{[key: string]: Task}>(
+                    "https://thematic-garage-625.firebaseio.com/tasks.json?auth", {params: new HttpParams().set('auth', user.token)})
+                    .pipe(map((response) => {
+                        //TRANSFORM DATA
+                        let tasks = [];
+                        console.log(response);
+                        for(let key in response){
+                            if(response.hasOwnProperty(key)){
+                                tasks.push({...response[key], id: key});
+                            }              
+                        }
+            
+                        return tasks;
+                    }), catchError((err) => {
+                        //Write the logic to log errors
+                        const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date()}
+                        this.loggingService.logError(errorObj);
+                        return throwError(() => err);
+                    }))
+            }));
 
-        let queryParams = new HttpParams();
-        queryParams = queryParams.set('page', 2);
-        queryParams = queryParams.set('item', 10)
 
-        return this.http.get<{[key: string]: Task}>(
-            "https://thematic-garage-625.firebaseio.com/tasks.json", {headers: headers, params: queryParams, 'observe': 'body'}
-            ).pipe(map((response) => {
-                 //TRANSFORM DATA
-                 let tasks = [];
-                 console.log(response);
-                 for(let key in response){
-                   if(response.hasOwnProperty(key)){
-                     tasks.push({...response[key], id: key});
-                   }              
-                 }
-     
-                 return tasks;
-            }), catchError((err) => {
-                //Write the logic to log errors
-                const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date()}
-                this.loggingService.logError(errorObj);
-                return throwError(() => err);
-            }))
     }
 
     UpdateTask(id: string | undefined, data: Task){
