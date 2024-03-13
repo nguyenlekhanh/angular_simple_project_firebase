@@ -3,8 +3,9 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Task } from "../Models/Task";
-import { Subject, catchError, map, throwError } from "rxjs";
+import { Subject, catchError, map, tap, throwError } from "rxjs";
 import { AuthResponse } from "../Models/AuthResponse";
+import { FirebaseUser } from "../Models/firebaseUser";
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ import { AuthResponse } from "../Models/AuthResponse";
 export class AuthService {
     http: HttpClient = inject(HttpClient);
     error: string | null = null;
+    firebaseUser = new Subject<FirebaseUser>();
 
     //firebase.google.com/docs/reference/rest/auth#section-create-email-password
     signup(email, password) {
@@ -20,12 +22,12 @@ export class AuthService {
         return this.http.post<AuthResponse>(
                     'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBjhVbSlKb_mSBT7z24-Bejlqm8x3slrLY', data
                 ).pipe(
-                    catchError(this.handleError)
+                    catchError(this.handleError),
+                    tap(this.handleCreateUser)
                 );
 
 
     }
-
 
     login(email, password) {
         const data = {email: email, password: password, returnSecureToken: true};
@@ -33,10 +35,22 @@ export class AuthService {
         return this.http.post<AuthResponse>(
             'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', data
         ).pipe(
-            catchError(this.handleError)
+            catchError(this.handleError),
+            tap(this.handleCreateUser)
         );
     }
 
+    private handleCreateUser(res) {
+        const expiredInTs = new Date().getTime() + +res.expiresIn * 1000;
+        //res.expiresIn - second
+        //+res.expiresIn * 1000 - milisecond
+        const expiredIn = new Date(expiredInTs);
+
+        const user = new FirebaseUser(res.email, res.localId, res.idToken, expiredIn)
+
+        this.firebaseUser.next(user);
+    }
+    
     private handleError(err) {
         let errorMessage = 'An unknown error has occured';
         if(!err.error || ! err.error.error) {
