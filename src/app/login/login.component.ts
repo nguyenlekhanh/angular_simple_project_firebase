@@ -5,6 +5,8 @@ import { AuthService } from '../Services/auth.service';
 import { LoaderComponent } from '../utility/loader/loader.component';
 import { CommonModule } from '@angular/common';
 import { SnackbarComponent } from '../utility/snackbar/snackbar.component';
+import { Observable } from 'rxjs';
+import { AuthResponse } from '../Models/AuthResponse';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +25,7 @@ export class LoginComponent {
   authService: AuthService = inject(AuthService);
   isLoading: boolean = false;
   errorMessage: string | null = null;
+  authObs: Observable<AuthResponse>;
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -36,22 +39,24 @@ export class LoginComponent {
 
     this.isLoading = true;
     if(this.isLoginMode) {
-      return;
+      this.authObs = this.authService.login(email, password);
     } else {
-      this.authService.signup(email, password).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.isLoading = false;
-        },
-        error: (errMsg) => {
-
-          this.isLoading = false;
-          this.errorMessage = errMsg;
-
-          this.hideSnackbar();
-        }
-      });
+      this.authObs = this.authService.signup(email, password);
     }
+
+    this.authObs.subscribe({
+      next: (res) => {
+        console.log(res);
+        this.isLoading = false;
+      },
+      error: (errMsg) => {
+
+        this.isLoading = false;
+        this.errorMessage = errMsg;
+
+        this.hideSnackbar();
+      }
+    });
 
     form.reset();
   }
