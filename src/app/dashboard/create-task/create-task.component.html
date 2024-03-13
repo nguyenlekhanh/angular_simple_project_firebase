@@ -1,6 +1,6 @@
 <div class="overlay">
 	<div class="popup">
-		<h2>{{ isEditMode ? "Update Task" : "Create a new Task" }}</h2>
+		<h2>{{ isEditMode ? 'Update Task' : 'Create a new Task'}}</h2>
 		<a class="close" href="#" (click)="OnCloseForm()">&times;</a>
 		<div class="content">
 			<section class="container">
@@ -11,16 +11,16 @@
                   </div>
                   <div class="input-box">
                     <label>Description*</label>
-                    <textarea rows="8" name="description" ngModel required></textarea>
+                    <textarea rows="8" name="desc" required ngModel></textarea>
                   </div>
                   <div class="column">
                     <div class="input-box">
                       <label>Assigned To</label>
-                      <input type="text" name="assignedTo" ngModel required />
+                      <input type="text" name="assignedTo" required ngModel />
                     </div>
                     <div class="input-box">
                       <label>Created At</label>
-                      <input type="date" name="createdAt" ngModel required />
+                      <input type="date" name="createdAt" required ngModel />
                     </div>
                   </div>
                   <div class="input-box address">
@@ -45,7 +45,7 @@
                       </div>
                     </div>
                   </div>
-                  <button type="submit">{{ isEditMode ? "Update" : "Create" }} Task</button>
+                  <button type="submit">{{ isEditMode ? 'Update Task' : 'Create Task'}}</button>
                 </form>
               </section>
 		</div>

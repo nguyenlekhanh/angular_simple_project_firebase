@@ -2,12 +2,13 @@
         *ngIf="showCreateTaskForm" 
         (CloseForm)="CloseCreateTaskForm()"
         (EmitTaskData)="CreateOrUpdateTask($event)"
-        [isEditMode]="isEditMode"
+        [isEditMode]="editMode"
         [selectedTask]="selectedTask"
-></app-create-task>
+    >
+</app-create-task>
 
-<app-task-details *ngIf="showTaskDetails"
-    (CloseDetailView)="CloseTaskDetail()"
+<app-task-details *ngIf="showTaskDetails" 
+    (CloseDetailView)="CloseTaskDetails()"
     [currentTask]="currentTask"
 ></app-task-details>
 
@@ -18,7 +19,7 @@
         </div>
         <div style="width: 50%; text-align: right;">
             <button class="create-task-btn" (click)="OpenCreateTaskForm()">Create Task</button>
-            <button class="create-task-btn" (click)="FetchAllTaskCLicked()">Fetch Tasks</button>
+            <button class="create-task-btn" (click)="FetchAllTaskClicked()">Fetch Tasks</button>
             <button class="create-task-btn" (click)="DeleteAllTask()">Clear Tasks</button>
         </div>
     </div>
@@ -28,12 +29,11 @@
     <div class="dashboard-item-container">
         <div class="sb sb-error" *ngIf="errorMessage">{{ errorMessage }}</div>
         <div class="loader" *ngIf="isLoading"></div>
-        <div style="text-align:center" *ngIf="allTasks.length < 1">
+        <div style="text-align: center;" *ngIf="allTasks.length < 1">
             <h2>No task has been created yet!</h2>
         </div>
         <ng-container *ngIf="!isLoading">
-            <div class="task-item" [ngClass]="'task-' + task.status" *ngFor="let task of allTasks"
-            >
+            <div class="task-item" [ngClass]="'task-' + task.status" *ngFor="let task of allTasks">
                 <div class="task-title">
                     <h3>{{ task.title }}</h3>
                 </div>
@@ -41,12 +41,10 @@
                 <p><b>Priority: </b>{{ task.priority }}</p>
                 <p><b>Status: </b>{{ task.status }}</p>
                 <div class="task-action-icons">
-                    <button class="task-action-btn" title="Detail"
-                        (click)="showCurrentTaskDetail(task.id)"
-                    >
+                    <button class="task-action-btn" title="Detail" (click)="showCurrentTaskDetails(task.id)">
                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                     </button>
-                    <button class="task-action-btn" title="Edit" (click)="UpdateTaskById(task.id)">
+                    <button class="task-action-btn" title="Edit" (click)="OnEditTaskClicked(task.id)">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </button>
                     <button class="task-action-btn" title="Delete" (click)="DeleteTask(task.id)">

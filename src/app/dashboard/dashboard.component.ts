@@ -22,51 +22,48 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  showTaskDetails: boolean = false;
   showCreateTaskForm: boolean = false;
-  http: HttpClient = inject(HttpClient);
+  showTaskDetails: boolean = false;
+  http: HttpClient = inject(HttpClient)
   allTasks: Task[] = [];
   taskService: TaskService = inject(TaskService);
-  selectedTask: Task;
-  isEditMode: boolean = false;
-  currentTaskId: string;
+  currentTaskId: string = '';
   isLoading: boolean = false;
-
-  errorMessage: string |  null = null;
-  errorSub: Subscription;
 
   currentTask: Task | null = null;
 
-  ngOnInit() {
+  errorMessage: string | null = null;
+
+  editMode: boolean = false;
+  selectedTask: Task;
+
+  errorSub: Subscription
+
+  ngOnInit(){
     this.fetchAllTasks();
-    this.errorSub = this.taskService.errorSubject.subscribe({
-      next: (httpError) => {
-        this.setErrorMessage(httpError);
-      }
-    });
+    this.errorSub = this.taskService.errorSubject.subscribe({next: (httpError) => {
+      this.setErrorMessage(httpError);
+    }})
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(){
     this.errorSub.unsubscribe();
   }
 
   OpenCreateTaskForm(){
-    
-    this.selectedTask = {title: '', desc: '', assignedTo: '', createdAt: '', priority: '', status: ''};
     this.showCreateTaskForm = true;
+    this.editMode = false;
+    this.selectedTask = {title: '', desc: '', assignedTo: '', createdAt: '', priority: '', status: ''}
   }
 
-  showCurrentTaskDetail(id: string | undefined) {
+  showCurrentTaskDetails(id: string | undefined){
     this.showTaskDetails = true;
-    this.taskService.getTaskDetail(id)
-      .subscribe({
-        next: (data: Task) => {
-          this.currentTask = data;
-        }
-      });
+    this.taskService.getTaskDetails(id).subscribe({next: (data: Task) => {
+      this.currentTask = data;
+    }});
   }
 
-  CloseTaskDetail() {
+  CloseTaskDetails(){
     this.showTaskDetails = false;
   }
 
@@ -74,57 +71,61 @@ export class DashboardComponent {
     this.showCreateTaskForm = false;
   }
 
-  CreateOrUpdateTask(data: Task) {
-    if(this.isEditMode) {
-      this.taskService.UpdateTaskById(this.currentTaskId, data);
-    } else {
+  CreateOrUpdateTask(data: Task){
+    if(!this.editMode)
       this.taskService.CreateTask(data);
-    }
+    else
+      this.taskService.UpdateTask(this.currentTaskId, data);
   }
 
-  FetchAllTaskCLicked() {
-    this.fetchAllTasks();
+  /*{
+    key1: {},
+    key2: {}
+  }*/
+
+  FetchAllTaskClicked(){
+    this.fetchAllTasks()
   }
 
-  private fetchAllTasks() {
+  private fetchAllTasks(){
     this.isLoading = true;
-    this.taskService.GetAllTask().subscribe({
-      next: (tasks) => {
-        this.allTasks = tasks;
-        this.isLoading = false;
-      }, error: (error) => {
-        //this.errorMessage = error.message;
-        this.setErrorMessage(error);
-        this.isLoading = false;
-      }
-    });
+    this.taskService.GetAlltasks().subscribe({next: (tasks) => {
+      this.allTasks = tasks;
+      this.isLoading = false;
+    }, error: (error) => {
+      this.setErrorMessage(error);
+      this.isLoading = false;
+    }})
   }
 
-  private setErrorMessage(err: HttpErrorResponse) {
-    //console.log(err);
-    if(err.error.err === 'Permission denied') {
-      this.errorMessage = 'You do not have permission to perform this action'
-    } else {
+  private setErrorMessage(err: HttpErrorResponse){
+    if(err.error.error === 'Permission denied'){
+      this.errorMessage = 'You do not have permisssion to perform this action';
+    }
+    else{
       this.errorMessage = err.message;
     }
+
+    setTimeout(() => {
+      this.errorMessage = null;
+    }, 3000);
   }
 
-
-  DeleteTask(id: string | undefined) {
+  DeleteTask(id: string | undefined){
     this.taskService.DeleteTask(id);
   }
 
-  DeleteAllTask() {
-    this.taskService.DeleteAllTask();
+  DeleteAllTask(){
+    this.taskService.DeleteAllTasks();
   }
 
-  UpdateTaskById(id: string | undefined) {
-    this.selectedTask = this.allTasks.find((task) => task.id === id);
+  OnEditTaskClicked(id: string | undefined){
     this.currentTaskId = id;
-    this.showCreateTaskForm = true;
-    this.isEditMode = true;
     
+    //OPEN EDIT TASK FORM
+    this.showCreateTaskForm = true;
+    this.editMode = true;
 
-    //this.taskService.UpdateTaskById(id);
+    this.selectedTask = this.allTasks.find((task) => {return task.id === id})
   }
 }
