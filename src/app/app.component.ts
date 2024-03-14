@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { CommonModule } from '@angular/common'; //ngFor
@@ -24,6 +24,7 @@ import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { RouterModule } from '@angular/router';
+import { AuthService } from './Services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +52,12 @@ import { RouterModule } from '@angular/router';
 export class AppComponent {
   // title = 'angular_project';
   title = 'Observables';
+
+  authService: AuthService = inject(AuthService);
+  
+  ngOnInit() {
+    this.authService.autoLogin();
+  }
 
   data: any[] = [];
 

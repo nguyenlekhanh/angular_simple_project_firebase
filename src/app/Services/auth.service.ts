@@ -47,6 +47,20 @@ export class AuthService {
         this.router.navigate(['/login']);
     }
 
+    autoLogin() {
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if(!user) {
+            return;
+        }
+
+        const loggedUser = new FirebaseUser(user.email, user.id, user._token, user.expiredIn);
+
+        if(loggedUser.token) {
+            this.firebaseUser.next(loggedUser);
+        }
+    }
+
     private handleCreateUser(res) {
         const expiredInTs = new Date().getTime() + +res.expiresIn * 1000;
         //res.expiresIn - second
@@ -56,6 +70,8 @@ export class AuthService {
         const user = new FirebaseUser(res.email, res.localId, res.idToken, expiredIn)
 
         this.firebaseUser.next(user);
+
+        localStorage.setItem('user', JSON.stringify(user));
     }
     
     private handleError(err) {
