@@ -6,6 +6,7 @@ import { Task } from "../Models/Task";
 import { BehaviorSubject, Subject, catchError, map, tap, throwError } from "rxjs";
 import { AuthResponse } from "../Models/AuthResponse";
 import { FirebaseUser } from "../Models/firebaseUser";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root',
@@ -14,6 +15,7 @@ export class AuthService {
     http: HttpClient = inject(HttpClient);
     error: string | null = null;
     firebaseUser = new BehaviorSubject<FirebaseUser>(null);
+    router: Router = inject(Router);
 
     //firebase.google.com/docs/reference/rest/auth#section-create-email-password
     signup(email, password) {
@@ -33,11 +35,16 @@ export class AuthService {
         const data = {email: email, password: password, returnSecureToken: true};
 
         return this.http.post<AuthResponse>(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', data
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBjhVbSlKb_mSBT7z24-Bejlqm8x3slrLY', data
         ).pipe(
             catchError(this.handleError),
             tap(this.handleCreateUser)
         );
+    }
+
+    logout() {
+        this.firebaseUser.next(null);
+        this.router.navigate(['/login']);
     }
 
     private handleCreateUser(res) {

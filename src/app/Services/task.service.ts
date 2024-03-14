@@ -65,30 +65,24 @@ export class TaskService {
     }
 
     GetAlltasks(){
-        return this.authService.firebaseUser
-            .pipe(take(1), exhaustMap(user => {
-                return this.http.get<{[key: string]: Task}>(
-                    "https://thematic-garage-625.firebaseio.com/tasks.json?auth", {params: new HttpParams().set('auth', user.token)})
-                    .pipe(map((response) => {
-                        //TRANSFORM DATA
-                        let tasks = [];
-                        console.log(response);
-                        for(let key in response){
-                            if(response.hasOwnProperty(key)){
-                                tasks.push({...response[key], id: key});
-                            }              
-                        }
-            
-                        return tasks;
-                    }), catchError((err) => {
-                        //Write the logic to log errors
-                        const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date()}
-                        this.loggingService.logError(errorObj);
-                        return throwError(() => err);
-                    }))
-            }));
-
-
+        return this.http.get("https://thematic-garage-625.firebaseio.com/tasks.json")
+            .pipe(map((response) => {
+                    //TRANSFORM DATA
+                    let tasks = [];
+                    console.log(response);
+                    for(let key in response){
+                        if(response.hasOwnProperty(key)){
+                            tasks.push({...response[key], id: key});
+                        }              
+                    }
+        
+                    return tasks;
+                }), catchError((err) => {
+                    //Write the logic to log errors
+                    const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date()}
+                    this.loggingService.logError(errorObj);
+                    return throwError(() => err);
+                }));
     }
 
     UpdateTask(id: string | undefined, data: Task){

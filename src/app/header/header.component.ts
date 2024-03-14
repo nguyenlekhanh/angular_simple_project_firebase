@@ -28,6 +28,10 @@ export class HeaderComponent {
     });
   }
 
+  onLogout() {
+    this.authService.logout();
+  }
+
   ngOnDestroy() {
     this.userSubject.unsubscribe();
   }
