@@ -16,6 +16,7 @@ export class AuthService {
     error: string | null = null;
     firebaseUser = new BehaviorSubject<FirebaseUser>(null);
     router: Router = inject(Router);
+    private tokenExpiretimer: any;
 
     //firebase.google.com/docs/reference/rest/auth#section-create-email-password
     signup(email, password) {
@@ -45,6 +46,13 @@ export class AuthService {
     logout() {
         this.firebaseUser.next(null);
         this.router.navigate(['/login']);
+        localStorage.removeItem('user');
+
+        if(this.tokenExpiretimer) {
+            clearTimeout(this.tokenExpiretimer);
+        }
+
+        this.tokenExpiretimer = null;
     }
 
     autoLogin() {
@@ -58,7 +66,15 @@ export class AuthService {
 
         if(loggedUser.token) {
             this.firebaseUser.next(loggedUser);
+            const timerValue = user._expiresIn.getTime() - new Date().getTime();
+            this.autoLogout(timerValue);
         }
+    }
+
+    autoLogout(expireTime: number) {
+        this.tokenExpiretimer = setTimeout(() => {
+            this.logout();
+        }, expireTime);
     }
 
     private handleCreateUser(res) {
@@ -70,6 +86,7 @@ export class AuthService {
         const user = new FirebaseUser(res.email, res.localId, res.idToken, expiredIn)
 
         this.firebaseUser.next(user);
+        this.autoLogout(res.expiredIn * 1000);
 
         localStorage.setItem('user', JSON.stringify(user));
     }
